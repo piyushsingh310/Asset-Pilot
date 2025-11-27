@@ -1,4 +1,4 @@
-const c1 = document.getElementById('statsPieChart');
+/*const c1 = document.getElementById('statsPieChart');
     new Chart(c1, {
       type: 'pie',
       data: {
@@ -89,3 +89,337 @@ const c1 = document.getElementById('statsPieChart');
         cutout: '50%'
       }
     });
+
+    */
+
+// Get canvas elements
+// ======================== ALL-TIME CHARTS =======================/*
+
+// Get canvas elements safely/*
+/*const c1 = document.getElementById('statsPieChart')?.getContext('2d');
+const c2 = document.getElementById('amtSemiDonutChart')?.getContext('2d');
+const c3 = document.getElementById('borrowDonutChart')?.getContext('2d');
+
+if (c1 && c2 && c3) {
+  // --- Fetch all data (active + completed) ---
+  const transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+  const history = JSON.parse(localStorage.getItem("history")) || [];
+
+  // Merge both to represent *all time*
+  const allData = [...transactions, ...history];
+
+  // --- Helper functions ---
+  function getTypeDistribution(typeFilter) {
+    const dist = {};
+    allData.filter(tx => tx.type === typeFilter).forEach(tx => {
+      const amt = parseFloat(tx.amount);
+      dist[tx.assetType] = (dist[tx.assetType] || 0) + amt;
+    });
+    return dist;
+  }
+
+  function getTotalAmount(typeFilter) {
+    return allData
+      .filter(tx => tx.type === typeFilter)
+      .reduce((sum, tx) => sum + parseFloat(tx.amount), 0);
+  }
+
+  // --- Lent Asset Distribution (Pie) ---
+  const lentDist = getTypeDistribution('lent');
+  const statsPieChart = new Chart(c1, {
+    type: 'pie',
+    data: {
+      labels: Object.keys(lentDist),
+      datasets: [{
+        data: Object.values(lentDist),
+        backgroundColor: Object.keys(lentDist).map(() => `hsl(${Math.random()*360},60%,60%)`),
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'bottom', labels: { color: '#ccc' } },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return context.label + ': ₹' + context.raw;
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // --- Semi-Donut Chart (Total Lent vs Total Borrowed) ---
+  const totalLent = getTotalAmount('lent');
+  const totalBorrowed = getTotalAmount('borrowed');
+  const amtSemiDonutChart = new Chart(c2, {
+    type: 'doughnut',
+    data: {
+      labels: ['Total Lent', 'Total Borrowed'],
+      datasets: [{
+        data: [totalLent, totalBorrowed],
+        backgroundColor: ['#f6a94d', '#fbe36c'],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      rotation: -90,
+      circumference: 180,
+      cutout: '60%',
+      plugins: {
+        legend: { position: 'bottom', labels: { color: '#ccc' } },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return context.label + ': ₹' + context.raw;
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // --- Borrowed Asset Distribution (Donut) ---
+  const borrowedDist = getTypeDistribution('borrowed');
+  const borrowDonutChart = new Chart(c3, {
+    type: 'doughnut',
+    data: {
+      labels: Object.keys(borrowedDist),
+      datasets: [{
+        data: Object.values(borrowedDist),
+        backgroundColor: Object.keys(borrowedDist).map(() => `hsl(${Math.random()*360},60%,60%)`),
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      cutout: '50%',
+      plugins: {
+        legend: { position: 'bottom', labels: { color: '#ccc' } },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return context.label + ': ₹' + context.raw;
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // --- Refresh Charts Dynamically (for live updates) ---
+  window.refreshCharts = function() {
+    const history = JSON.parse(localStorage.getItem("history")) || [];
+    const transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+    const allData = [...transactions, ...history];
+
+    // Lent Distribution
+    const updatedLentDist = {};
+    allData.filter(tx => tx.type === "lent").forEach(tx => {
+      updatedLentDist[tx.assetType] = (updatedLentDist[tx.assetType] || 0) + parseFloat(tx.amount);
+    });
+    statsPieChart.data.labels = Object.keys(updatedLentDist);
+    statsPieChart.data.datasets[0].data = Object.values(updatedLentDist);
+    statsPieChart.update();
+
+    // Borrowed Distribution
+    const updatedBorrowDist = {};
+    allData.filter(tx => tx.type === "borrowed").forEach(tx => {
+      updatedBorrowDist[tx.assetType] = (updatedBorrowDist[tx.assetType] || 0) + parseFloat(tx.amount);
+    });
+    borrowDonutChart.data.labels = Object.keys(updatedBorrowDist);
+    borrowDonutChart.data.datasets[0].data = Object.values(updatedBorrowDist);
+    borrowDonutChart.update();
+
+    // Lent vs Borrowed
+    const totalLent = allData.filter(tx => tx.type === "lent").reduce((sum, tx) => sum + parseFloat(tx.amount), 0);
+    const totalBorrowed = allData.filter(tx => tx.type === "borrowed").reduce((sum, tx) => sum + parseFloat(tx.amount), 0);
+    amtSemiDonutChart.data.datasets[0].data = [totalLent, totalBorrowed];
+    amtSemiDonutChart.update();
+  };
+}
+
+*/
+
+
+
+// Get canvas elements
+// ======================== ALL-TIME CHARTS ======================== //
+
+// Get canvas elements safely
+const c1 = document.getElementById('statsPieChart')?.getContext('2d');
+const c2 = document.getElementById('amtSemiDonutChart')?.getContext('2d');
+const c3 = document.getElementById('borrowDonutChart')?.getContext('2d');
+
+if (c1 && c2 && c3) {
+  // --- Fetch all data (active + completed) and DE-DUPLICATE ---
+  const transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+  const history = JSON.parse(localStorage.getItem("history")) || [];
+
+  // 1. Create a Map to store unique transactions by ID
+  const allDataMap = new Map();
+
+  // 2. Add all history transactions first (they are finalized)
+  history.forEach(tx => {
+    if (tx.id) {
+        allDataMap.set(tx.id, tx);
+    }
+  });
+
+  // 3. Add active transactions, overriding any with the same ID
+  //    (This ensures if a transaction is still in both, we use the active one, 
+  //     but ideally they should never overlap).
+  transactions.forEach(tx => {
+    if (tx.id) {
+        allDataMap.set(tx.id, tx);
+    }
+  });
+
+  // 4. Convert the Map values back to an array for processing
+  const allData = Array.from(allDataMap.values());
+    
+  // --- Helper functions ---
+  function getTypeDistribution(typeFilter) {
+    const dist = {};
+    allData.filter(tx => tx.type === typeFilter).forEach(tx => {
+      const amt = parseFloat(tx.amount);
+      dist[tx.assetType] = (dist[tx.assetType] || 0) + amt;
+    });
+    return dist;
+  }
+
+  function getTotalAmount(typeFilter) {
+    return allData
+      .filter(tx => tx.type === typeFilter)
+      .reduce((sum, tx) => sum + parseFloat(tx.amount), 0);
+  }
+
+  // --- Lent Asset Distribution (Pie) ---
+  const lentDist = getTypeDistribution('lent');
+  const statsPieChart = new Chart(c1, {
+    type: 'pie',
+    data: {
+      labels: Object.keys(lentDist),
+      datasets: [{
+        data: Object.values(lentDist),
+        backgroundColor: Object.keys(lentDist).map(() => `hsl(${Math.random()*360},60%,60%)`),
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'bottom', labels: { color: '#ccc' } },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              // Ensure the raw value is a number before calling toFixed
+              const value = parseFloat(context.raw).toFixed(2);
+              return context.label + ': ₹' + value;
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // --- Semi-Donut Chart (Total Lent vs Total Borrowed) ---
+  const totalLent = getTotalAmount('lent');
+  const totalBorrowed = getTotalAmount('borrowed');
+  const amtSemiDonutChart = new Chart(c2, {
+    type: 'doughnut',
+    data: {
+      labels: ['Total Lent', 'Total Borrowed'],
+      datasets: [{
+        data: [totalLent, totalBorrowed],
+        backgroundColor: ['#f6a94d', '#fbe36c'],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      rotation: -90,
+      circumference: 180,
+      cutout: '60%',
+      plugins: {
+        legend: { position: 'bottom', labels: { color: '#ccc' } },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              const value = parseFloat(context.raw).toFixed(2);
+              return context.label + ': ₹' + value;
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // --- Borrowed Asset Distribution (Donut) ---
+  const borrowedDist = getTypeDistribution('borrowed');
+  const borrowDonutChart = new Chart(c3, {
+    type: 'doughnut',
+    data: {
+      labels: Object.keys(borrowedDist),
+      datasets: [{
+        data: Object.values(borrowedDist),
+        backgroundColor: Object.keys(borrowedDist).map(() => `hsl(${Math.random()*360},60%,60%)`),
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      cutout: '50%',
+      plugins: {
+        legend: { position: 'bottom', labels: { color: '#ccc' } },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              const value = parseFloat(context.raw).toFixed(2);
+              return context.label + ': ₹' + value;
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // --- Refresh Charts Dynamically (for live updates) ---
+  window.refreshCharts = function() {
+    const history = JSON.parse(localStorage.getItem("history")) || [];
+    const transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+    
+    // --- De-duplication on refresh ---
+    const refreshDataMap = new Map();
+    history.forEach(tx => { if (tx.id) refreshDataMap.set(tx.id, tx); });
+    transactions.forEach(tx => { if (tx.id) refreshDataMap.set(tx.id, tx); });
+    const allData = Array.from(refreshDataMap.values());
+
+    // Lent Distribution
+    const updatedLentDist = {};
+    allData.filter(tx => tx.type === "lent").forEach(tx => {
+      updatedLentDist[tx.assetType] = (updatedLentDist[tx.assetType] || 0) + parseFloat(tx.amount);
+    });
+    statsPieChart.data.labels = Object.keys(updatedLentDist);
+    statsPieChart.data.datasets[0].data = Object.values(updatedLentDist);
+    statsPieChart.update();
+
+    // Borrowed Distribution
+    const updatedBorrowDist = {};
+    allData.filter(tx => tx.type === "borrowed").forEach(tx => {
+      updatedBorrowDist[tx.assetType] = (updatedBorrowDist[tx.assetType] || 0) + parseFloat(tx.amount);
+    });
+    borrowDonutChart.data.labels = Object.keys(updatedBorrowDist);
+    borrowDonutChart.data.datasets[0].data = Object.values(updatedBorrowDist);
+    borrowDonutChart.update();
+
+    // Lent vs Borrowed
+    const totalLent = allData.filter(tx => tx.type === "lent").reduce((sum, tx) => sum + parseFloat(tx.amount), 0);
+    const totalBorrowed = allData.filter(tx => tx.type === "borrowed").reduce((sum, tx) => sum + parseFloat(tx.amount), 0);
+    amtSemiDonutChart.data.datasets[0].data = [totalLent, totalBorrowed];
+    amtSemiDonutChart.update();
+  };
+}

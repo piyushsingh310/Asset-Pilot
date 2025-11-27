@@ -190,7 +190,8 @@ a {
     cursor: pointer;
 }
 
-
+/* Float In Keyframes */
+ 
 
 /*-------------------------------------features(How To Use AssetPilot)---------------------------------------------*/
 
@@ -647,13 +648,13 @@ figcaption{
 }
 @media (max-width: 768px) {
     .mobile-app-box {
-        position: relative; 
+        position: relative;  /* normal flow on small screens */
         bottom: auto;
         right: auto;
         justify-self: center;
     }
     .mobile-app-box img {
-        width: 200px;
+        width: 200px; /* smaller image for mobile */
     }
 }
 
@@ -733,7 +734,38 @@ figcaption{
     border: 1px solid #7A1CAC;
     color: #fff;
 }*/
+.mark-returned {
+    background-color: #4CAF50; /* green */
+    color: white;
+    border: none;
+    border-radius: 50%; 
+    padding: 8px 12px; 
+    font-size: 15px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin:1rem;
+}
 
+.mark-returned:hover {
+    background-color: red;
+    transform: scale(1.2);
+    box-shadow: 0 0 8px rgba(0,0,0,0.3);
+}
+
+.mark-returned:active {
+    transform: scale(1);
+    box-shadow: none;
+}
+
+#transactionContainer{
+    width:100%;
+    height: 100%;
+    gap:2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 .submit{
     text-align: center;
     justify-content: center;
@@ -754,9 +786,9 @@ figcaption{
 .field select:focus {
     border: 2px solid #7A1CAC;
     outline: none;
-    box-shadow: 0 0 8px rgba(122, 28, 172, 0.8); 
+    box-shadow: 0 0 8px rgba(122, 28, 172, 0.8); /* brighter purple glow */
     
-    transition: border 0.3s ease, box-shadow 0.3s ease; 
+    transition: border 0.3s ease, box-shadow 0.3s ease; /* smooth animation */
 }
 
 /* Overlay that blurs and dims background */
@@ -795,10 +827,10 @@ figcaption{
 }
 
 .borrow-heading, .account-heading {
-    position: relative;  
+    position: relative;   /* allow positioning children */
 }
 .lend-heading {
-    position: relative;   
+    position: relative;   /* allow positioning children */
 }
 
 .tab-panel {
@@ -809,8 +841,164 @@ figcaption{
 }
 
 .close-wrap {
-    float: right;         
+    float: right;         /* pushes the X to the right end */
 }
+
+/* ---------------------------------------- History Section ----------------------------------- */
+.history-section {
+    max-width: 900px; /* from your original CSS */
+    display: none; /* This is the key part */
+    flex-direction: column;
+    gap: 1.5rem;
+    background-color: #363639;
+    color: white;
+    margin: 1rem; /* A smaller margin often works better on different screens */
+    display: none;  /* hide by default */
+    padding: 3rem 5rem;
+    border-radius: 30px;
+    max-height: 85vh;
+    overflow-y: auto; 
+}
+
+.history-section::-webkit-scrollbar {
+    width: 10px; /* Adjust the width of the scrollbar */
+}
+
+/* This targets the track (the background area the scrollbar moves along). */
+.history-section::-webkit-scrollbar-track {
+    background: #2b2b2d; /* A dark color matching your theme */
+    border-radius: 10px;
+}
+
+
+.history-section h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    width: 100%;
+}
+
+.history-section .highlight {
+    color: #AD49E1;
+}
+
+.history-card {
+    background: #2b2b2d;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.2s ease;
+
+}
+
+.history-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+}
+
+.status-dot {
+    height: 14px;
+    width: 14px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.status-dot.red { background: red; }
+.status-dot.green { background: green; }
+
+.history-details {
+    flex: 1;
+}
+
+.status-label {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.status-label.gold { background: goldenrod; color: black; }
+.status-label.red-bg { background: darkred; color: white; }
+.status-label.green-bg { background: darkgreen; color: white; }
+
+.history-controls {
+  float: right;
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.trash-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.6rem;
+  color: #ff6961;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.trash-btn:hover {
+  transform: scale(1.1);
+  color: #ff3b3b;
+}
+
+
+/*-----------------------------------view stats---------------------------------------*/
+.view-stats {
+  background-color: #363639;
+  color: white;
+  margin: 30rem 10rem;
+  display: none;
+  padding: 5rem;
+  border-radius: 30px;
+  max-height: 85vh;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.stats-heading {
+  width: 100%;
+  text-align: left;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  width: 100%;
+  text-align: center;
+}
+
+.stat-item {
+  background-color: #2b2b2d;
+  border-radius: 12px;
+  padding: 2rem 1rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+}
+
+.stat-item h3 {
+  color: #b862e7;
+  margin-bottom: 1rem;
+}
+
+.stat-item p {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #fff;
+}
+
 /*-----------------------------------Login page---------------------------------------*/
 
 .sign-body {
@@ -822,7 +1010,7 @@ figcaption{
     background-image: url('images/abstract.jpg'); 
     background-size: cover; 
     background-position: center; 
-    background-repeat: no-repeat; 
+    background-repeat: no-repeat; /* prevent tiling */
     background-color: rgba(0,0,0,0.5); /* dark layer */
     background-blend-mode: darken;
     }
@@ -846,7 +1034,7 @@ figcaption{
 
 .Logfield{
     display: flex;
-    flex-direction: column;  
+    flex-direction: column;  /* stack label and input vertically */
     gap: 0.25rem;    
     padding: 0.5rem;
 }
@@ -868,9 +1056,9 @@ figcaption{
 .Logfield input:focus{
     border: 2px solid #7A1CAC;
     outline: none;
-    box-shadow: 0 0 8px rgba(122, 28, 172, 0.8); 
+    box-shadow: 0 0 8px rgba(122, 28, 172, 0.8); /* brighter purple glow */
     
-    transition: border 0.3s ease, box-shadow 0.3s ease; 
+    transition: border 0.3s ease, box-shadow 0.3s ease; /* smooth animation */
 }
 
 
@@ -983,8 +1171,8 @@ figcaption{
 }*/
 .card {
   display: grid;
-  grid-template-columns: auto 1fr; 
-  grid-template-rows: auto auto;   
+  grid-template-columns: auto 1fr; /* two columns: image + main-data */
+  grid-template-rows: auto auto;   /* two rows: image/title */
   align-items: center;
   padding: 1rem;
   background: #f8f9fa;
@@ -1146,6 +1334,21 @@ figcaption{
     margin-left: 1rem;
 }
 
+/* Smooth slide-out animation when marking as returned */
+.transaction.slide-out {
+  animation: slideOut 0.2s ease forwards;
+}
+
+@keyframes slideOut {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%); /* change to -100% if you want left slide */
+  }
+}
 
 
 /*-------------------------------------statistics Page----------------------------------------------*/
@@ -1213,7 +1416,252 @@ figcaption{
 .borrow-head{
         color:#cbc0c0;
 }
+/*-------------------------------------Calendar Page----------------------------------------------*/
+.calendar-container {
+  margin: 2rem auto;
+  max-width: 1000px;
+  padding: 0 1rem;
+}
 
+.calendar {
+  background: linear-gradient(135deg, #1f1f1f 0%, #2a2a2a 100%);
+  color: white;
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  border: 1px solid #333;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.calendar-header h1 {
+  font-family: 'Inter', sans-serif;  
+  font-size: 2rem;  
+  font-weight: 750;  
+  background: linear-gradient(90deg, #fefdff, #c1bfc3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+  flex-grow: 1;
+}
+
+/* New styles for navigation buttons */
+.nav-btn {
+  background: #2a2a2a;
+  border: 1px solid #444;
+  color: #c1bfc3;
+  font-size: 2rem;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.nav-btn:hover {
+  background: #AD49E1;
+  color: white;
+  border-color: #AD49E1;
+  box-shadow: 0 0 8px rgba(173, 73, 225, 0.5);
+  transform: scale(1.1);    
+}
+
+.nav-btn:active {
+  transform: scale(0.95);
+}
+
+
+/* --- Calendar Body, Weekdays, and Days --- */
+.calendar-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+
+}
+
+.calendar-weekdays div {
+  font-weight: 700;
+  color: #AD49E1;
+  text-align: center;
+  padding: 1rem 0;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+}
+
+.calendar-days div {
+  background: #2b2b2d;
+  border-radius: 12px;
+  height: 90px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.75rem;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.calendar-days div:hover {
+  transform: translateY(-2px);
+  border-color: #AD49E1;
+}
+
+/* Date number styling using data-attribute */
+.calendar-days div::before {
+  content: attr(data-date);
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: white;
+  align-self: flex-start;
+}
+
+/* --- Day States and Types --- */
+
+/* New style for inactive days */
+.calendar-days div.inactive {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.calendar-days div.inactive:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: transparent;
+}
+
+/* Today's date */
+.calendar-days div.today {
+  background: rgb(53, 53, 53);
+  border-color: #7A1CAC;
+}
+
+.calendar-days div.today::before {
+  color: #AD49E1;
+  font-size: 1.3rem;
+}
+
+/* Repayment deadline (Borrowed) */
+.calendar-days div.repay {
+  background: rgb(67, 35, 35);
+  border-color: #2b2b2d;
+
+}
+
+.calendar-days div.repay::before {
+  color: #ff6b7a;
+}
+
+/* Request deadline (Lent) */
+.calendar-days div.request {
+  background: rgb(38, 49, 38);
+  border-color: #2b2b2d;
+}
+
+.calendar-days div.request::before {
+  color: #7bed9f;
+}
+
+/* --- Text inside date cells --- */
+
+/* New style for event text */
+.calendar-days div h6 {
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #f0f0f0;
+}
+
+/* --- Legend/Footer --- */
+.calendar-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #444;
+  font-size: 0.9rem;
+}
+
+.calendar-footer .legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.calendar-footer .dot {
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(255,255,255,0.3);
+}
+
+.calendar-footer .red {  
+  background: #ff4757;
+  box-shadow: 0 0 10px rgba(255, 71, 87, 0.5);
+}
+
+.calendar-footer .green {  
+  background: #2ed573;
+  box-shadow: 0 0 10px rgba(46, 213, 115, 0.5);
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+  .calendar {
+    padding: 1rem;
+  }
+  
+  .calendar-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .calendar-days div {
+    height: 75px;
+    padding: 0.5rem;
+  }
+  
+  .calendar-weekdays div {
+    font-size: 0.9rem;
+    padding: 0.5rem 0;
+  }
+  
+  .calendar-footer {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start; /* Align legend items to the left */
+  }
+}
 /*-------------------------------------Report Page----------------------------------------------*/
 .report-body{
     background-color: #1A1A1D;
@@ -1316,9 +1764,9 @@ figcaption{
 
 /*pie chart*/
 .stats-chart {
-  width: 300px;   
+  width: 300px;   /* adjust size */
   height: 300px;
-  margin: auto;  
+  margin: auto;   /* center horizontally */
 }
 
 
@@ -1348,7 +1796,7 @@ figcaption{
 
 .milestones-wrapper {
     flex: 1;
-    overflow-x: auto; 
+    overflow-x: auto; /* Re-enables the horizontal scrollbar */
     overflow-y: hidden;
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
@@ -1363,7 +1811,7 @@ figcaption{
 
 .milestones-wrapper2 {
     flex: 1;
-    overflow-x: auto; 
+    overflow-x: auto; /* Re-enables the horizontal scrollbar */
     overflow-y: hidden;
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
@@ -1377,7 +1825,7 @@ figcaption{
 }
 
 .milestone-card2 {
-    flex: 0 0 calc(33.333% - 13.333px); 
+    flex: 0 0 calc(33.333% - 13.333px); /* Correctly sizes cards for 3-up display, accounting for gap */
     scroll-snap-align: start;
     background: #2a2929;
     border-radius: 12px;
@@ -1419,7 +1867,7 @@ figcaption{
 /* --------------------------------------- Milestone Section type 4--------------------------------------- */
 .milestones-wrapper4 {
     flex: 1;
-    overflow-x: auto; 
+    overflow-x: auto; /* Re-enables the horizontal scrollbar */
     overflow-y: hidden;
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
@@ -1433,7 +1881,7 @@ figcaption{
 }
 
 .milestone-card4 {
-    flex: 0 0 calc(33.333% - 13.333px); 
+    flex: 0 0 calc(33.333% - 13.333px); /* Correctly sizes cards for 3-up display, accounting for gap */
     scroll-snap-align: start;
     background: #2a2929;
     border-radius: 12px;
@@ -1474,4 +1922,8 @@ figcaption{
 .milestones-wrapper4::-webkit-scrollbar-thumb {
   background: #7A1CAC;
   border-radius: 10px;
+}
+
+html {
+  scroll-behavior: smooth;
 }
