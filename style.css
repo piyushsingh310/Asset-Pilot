@@ -1927,3 +1927,108 @@ figcaption{
 html {
   scroll-behavior: smooth;
 }
+
+/*-----------------CREDIT FEATURE ---------------------------------*/
+
+
+.credit-pill {
+    margin-left: 5rem; 
+    display: inline-flex;
+    align-items: center;
+    background-color: #2b2b2d; /* Dark background for the pill */
+    border: 1px solid #e2dddd; /* Purple border for the pill */
+    border-radius: 20px; /* Pill shape */
+    padding: 2px 15px 2px 10px; /* Padding inside the pill */
+    height: 35px; /* Define a fixed height for better alignment */
+    box-sizing: border-box;
+    vertical-align: middle;
+    /* Margin to separate it from surrounding nav items */
+    margin-right: 2rem; 
+}
+
+.credit-icon {
+    width: 25px; /* Size of the diamond/credit icon */
+    height: 25px;
+    object-fit: contain;
+    margin-right: 5px;
+}
+
+.credit-value {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #a9a8a8; /* Match the color of your existing nav links */
+    line-height: 1; /* Ensure text is vertically centered */
+}
+
+/* Ensure Credit link stays aligned right next to the pill */
+.nav-links .credit-pill + a {
+    margin-left: 1rem; /* Smaller margin to keep the pill and 'Credit' text close */
+}
+
+
+
+    .credit-body {
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #400e56, #743792);
+        color: white;
+        text-align: center;
+    }
+
+    .credit-header {
+        margin-top: 30px;
+        font-size: 40px;
+        font-weight: 700;
+    }
+
+    .credit-container {
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        gap: 25px;
+        padding: 40px;
+        max-width: 1100px;
+        margin: auto;
+    }
+
+    .credit-card {
+        background: rgba(232, 162, 255, 0.205);
+        border: 2px solid rgba(255, 255, 255, 0.237);
+        backdrop-filter: blur(4px);
+        border-radius: 15px;
+        padding: 20px;
+        transition: transform 0.25s;
+    }
+
+    .credit-card:hover {
+        transform: translateY(-8px);
+        cursor: pointer;
+    }
+
+    .credit-card img {
+        width: 110px;
+        margin-bottom: 10px;
+    }
+
+    .credit-title {
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 15px;
+    }
+
+    .credits {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: white;
+        color: #444;
+        padding: 5px 16px;
+        border-radius: 20px;
+        font-weight: 600;
+    }
+
+    .credits img {
+        margin-top: 5px;
+        width: 22px;
+        height: 22px;
+    }
+
